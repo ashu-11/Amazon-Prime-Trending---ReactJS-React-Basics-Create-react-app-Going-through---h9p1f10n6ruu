@@ -3,20 +3,35 @@ import Slide from "./Slide";
 import "../styles/App.css";
 
 const App = (props) => {
-  const [cureentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isLastIndex, setisLastIndex] = useState(false);
+
+  const showNextSlide = () => {
+    if (currentIndex === props.slides.length - 2) {
+      setisLastIndex(true);
+    }
+    setCurrentIndex(currentIndex + 1);
+  };
 
   return (
     <>
       <div>
         {props.slides.map((slide, i) => {
           console.log("value of i", i);
-          return i === cureentIndex ? <Slide slide={slide} /> : null;
+          return i === currentIndex ? <Slide slide={slide} /> : null;
         })}
       </div>
       <div>
-        <button data-testid="button-next"> next</button>
-        <button data-testid="button-prev">prev</button>
-        <button></button>
+        <button
+          data-testid="button-next"
+          onClick={showNextSlide}
+          disabled={isLastIndex}
+        >
+          {" "}
+          Next
+        </button>
+        <button data-testid="button-prev">Prev</button>
+        <button data-testid="button-restart">Restart</button>
       </div>
     </>
   );
